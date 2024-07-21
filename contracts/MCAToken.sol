@@ -12,21 +12,19 @@ interface IERC20 {
   event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-abstract contract MCAToken is IERC20 {
+contract MCAToken is IERC20 {
   string public name = "MCA Token";
   string public symbol = "MCA";
   uint8 public decimals = 18;
-  uint256 totalSupply_ = 150 ether;
+  uint256 public override totalSupply;
   
-  constructor() {
-    balances[msg.sender] = totalSupply_;
-  }
-
   mapping(address => uint256) balances;
   mapping(address => mapping(address => uint256)) allowed;
 
-  function totalSupply() external view override returns (uint256) {
-    return totalSupply_;
+  constructor(uint256 initialSupply) {
+    totalSupply = initialSupply;
+    balances[msg.sender] = totalSupply;
+    emit Transfer(address(0), msg.sender, totalSupply);
   }
 
   function balanceOf(address account) external view override returns (uint256) {
@@ -60,7 +58,4 @@ abstract contract MCAToken is IERC20 {
     emit Transfer(sender, recipient, amount);
     return true;
   }
-
-  
-
 }
