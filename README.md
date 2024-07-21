@@ -1,1 +1,1 @@
-"# ChallengeERC20Token" 
+# ChallengeERC20Token
